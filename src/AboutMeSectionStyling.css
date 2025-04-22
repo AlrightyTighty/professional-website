@@ -1,0 +1,13 @@
+.aboutme-content-section {
+    margin-top: 40vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+.technology-image {
+    aspect-ratio: 1 / 1;
+    height: 100%;
+    border-radius: 20%;
+}

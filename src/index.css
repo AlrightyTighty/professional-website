@@ -1,0 +1,17 @@
+body {
+  background-color: #111111;
+  margin: 0;
+}
+
+@font-face {
+  font-family: inter;
+  src: url("./assets/fonts/inter.ttf");
+}
+
+.default-font {
+  font-family: inter;
+}
+
+.default-font-color {
+  color: #FFF;
+}

@@ -1,0 +1,53 @@
+:root {
+    --name-gradient: linear-gradient(to right, #ff)
+}
+
+.panel-holder {
+    display: flex;
+}
+
+.menu-panel {
+    width: 350px;
+    height: 100vh;
+    display: flex;
+    align-content: flex-start;
+    flex-wrap: wrap;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.menu-scrollto-button-holder {
+    width: 100%;
+    margin-left: 40px;
+    margin-top: 50px;
+}
+
+.menu-panel::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 5px;
+    background-image: linear-gradient(
+        rgba(255, 255, 255, 0),
+        rgba(255, 255, 255, 0.5),
+        rgba(255, 255, 255, 0)
+    );
+}
+
+.menu-scrollto-button {
+    width: max-content;
+    font-size: 32pt;
+    height: 1em;
+    text-decoration: none;
+    position: relative;
+    overflow-x: hidden;
+    white-space: nowrap;
+}
+
+.underline {
+    height: 0.1em;
+    background-color: white;
+    position: absolute;
+    bottom: -10px;
+}
