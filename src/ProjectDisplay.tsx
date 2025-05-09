@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Widget, WidgetDisplay, WidgetImage } from "./Widget";
+import { WidgetImage } from "./Widget";
 import "./ProjectStyling.css";
 
 interface ProjectDisplayProps {
@@ -19,7 +19,7 @@ export const ProjectDisplay: FC<ProjectDisplayProps> = ({ thumnbail_src, technol
         <p className="project-title default-font default-font-color">{name}</p>
         <div className="technologies-display">
           {technologies_used.map((src, index) => {
-            return <WidgetImage src={src} id={index} />;
+            return <WidgetImage key={index} src={src} id={index} />;
           })}
         </div>
       </div>
