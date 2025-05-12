@@ -1,21 +1,21 @@
-import { PropsWithChildren, FC, useRef, useEffect, Ref, useState } from "react";
+import { PropsWithChildren, FC, useRef, useEffect, useState, RefObject } from "react";
 
 interface DrawableCanvasProps {
   width: number;
   height: number;
+  canvasRef: RefObject<HTMLCanvasElement | null>;
   backgroundColor?: string;
 }
 
-const DrawableCanvas: FC<PropsWithChildren<DrawableCanvasProps>> = ({ width, height, backgroundColor }) => {
-  const canvasRef: Ref<HTMLCanvasElement> = useRef(null);
-  const contextRef: Ref<CanvasRenderingContext2D> = useRef(null);
+const DrawableCanvas: FC<PropsWithChildren<DrawableCanvasProps>> = ({ width, height, backgroundColor, canvasRef }) => {
+  const contextRef: RefObject<CanvasRenderingContext2D | null> = useRef(null);
 
   const [isDrawing, setIsDrawing] = useState(false);
 
   if (!backgroundColor) backgroundColor = "transparent";
 
   useEffect(() => {
-    const canvas = canvasRef.current;
+    const canvas = canvasRef!.current;
     if (!canvas) return;
     canvas.width = 100;
     canvas.height = 100;
@@ -48,7 +48,7 @@ const DrawableCanvas: FC<PropsWithChildren<DrawableCanvasProps>> = ({ width, hei
     event.nativeEvent.preventDefault();
   };
 
-  const stopDraw = (event: React.MouseEvent<HTMLCanvasElement, MouseEvent>) => {
+  const stopDraw = () => {
     if (!isDrawing || !contextRef.current) return;
     setIsDrawing(false);
     contextRef.current.closePath();

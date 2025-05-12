@@ -11,9 +11,12 @@ import mongo_icon from "./assets/images/mongodb.png";
 import unity_icon from "./assets/images/unity icon.png";
 import c_icon from "./assets/images/c icon.png";
 import cs_icon from "./assets/images/cs icon.png";
+import python_icon from "./assets/images/python icon.png";
 
 import katyway_thumbnail from "./assets/images/katyway_thumbnail.png";
 import mcs_thumbnail from "./assets/images/mcs thumbnail.png";
+import alrightytechy_thumbnail from "./assets/images/alrightytechy thumbnail.png";
+import ffg_thumbnail from "./assets/images/fitness for goobs thumbnail.png";
 
 import headshot from "./assets/images/headshot.png";
 import "./MenuStyling.css";
@@ -21,7 +24,6 @@ import "./MainSectionStyling.css";
 import "./AboutMeSectionStyling.css";
 import { Widget, WidgetDisplay, WidgetImage } from "./Widget";
 import { ProjectDisplay } from "./ProjectDisplay";
-import DrawableCanvas from "./DrawableCanvas";
 import PostitBoard from "./PostitBoard";
 import PostitMaker from "./PostitMaker";
 
@@ -69,7 +71,7 @@ const MenuPanel: FC<MenuPanelProps> = ({ texts, scrollToSelectors, hoveredIndex,
   );
 };
 
-const menuSections = ["Home", "About Me", "Projects", "Tutoring", "Contact Me", "Post-It Board"];
+const menuSections = ["Home", "About Me", "Projects", "Post-It Board", "Contact Me"];
 const menuLinks = [".greeting-text", "", "", "", "", ""];
 
 const testdata = [
@@ -93,6 +95,8 @@ const App = () => {
   const [postitActive, setPostitActive] = useState(false);
 
   const [enableScrollable, setEnableScrollable] = useState(false);
+
+  const reloadImagesRef = useRef(true);
 
   const textGradientStyle = useMotionTemplate`linear-gradient(to right, #EFFA58 0%, #EF4687 ${pinkPosition}%,  rgb(255, 255, 255, 0) ${whitePosition}%)`;
 
@@ -122,6 +126,8 @@ const App = () => {
     prevSelected.current = selectedIndex;
     prevHovered.current = hoveredIndex;
   }, [selectedIndex, hoveredIndex, animateReact]);
+
+  const updateCurrentSection = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {};
 
   return (
     <>
@@ -183,13 +189,15 @@ const App = () => {
           <div className="project-section">
             <ProjectDisplay thumnbail_src={katyway_thumbnail} name="KatyWay" technologies_used={[react_icon, typescript_icon, gcp_icon]} />
             <ProjectDisplay thumnbail_src={mcs_thumbnail} name="MCS" technologies_used={[unity_icon, c_icon, cs_icon]} />
+            <ProjectDisplay thumnbail_src={alrightytechy_thumbnail} name="AlrightyTechy" technologies_used={[python_icon, gcp_icon, postgre_icon]} />
+            <ProjectDisplay thumnbail_src={ffg_thumbnail} name="Fitness For Goobs" technologies_used={[python_icon, gcp_icon, postgre_icon]} />
           </div>
           <p className="postit-board-intro-text default-font default-font-color">
             <u>Post-it Board!</u>
           </p>
-          <PostitBoard height={400} postits={testdata} setPostitActive={setPostitActive} />
+          <PostitBoard height={400} postits={testdata} setPostitActive={setPostitActive} reloadImagesRef={reloadImagesRef} />
         </div>
-        {postitActive && <PostitMaker setPostitMakerActive={setPostitActive} />}
+        {postitActive && <PostitMaker setPostitMakerActive={setPostitActive} reloadImagesRef={reloadImagesRef} />}
       </div>
     </>
   );

@@ -1,10 +1,11 @@
-import { FC } from "react";
+import { FC, RefObject, useEffect, useState } from "react";
 import "./PostitBoardStyling.css";
 
 interface PostitBoardProps {
   height: number;
   setPostitActive: React.Dispatch<React.SetStateAction<boolean>>;
   postits: string[];
+  reloadImagesRef: RefObject<boolean>;
 }
 
 interface PostitProps {
@@ -20,7 +21,25 @@ const PostitNote: FC<PostitProps> = ({ url, id }) => {
   );
 };
 
-const PostitBoard: FC<PostitBoardProps> = ({ height, setPostitActive, postits }) => {
+const PostitBoard: FC<PostitBoardProps> = ({ height, setPostitActive, reloadImagesRef }) => {
+  const [postits, setPostits] = useState<string[]>([]);
+
+  console.log("re-render");
+
+  if (reloadImagesRef.current)
+    (async () => {
+      reloadImagesRef.current = false;
+      const res = await fetch("http://localhost:3000/stickynote", {
+        method: "GET",
+      });
+      const json: { dataURI: string }[] = await res.json();
+      const newPostits: string[] = [];
+      json.forEach(({ dataURI }) => {
+        newPostits.push(dataURI);
+      });
+      setPostits(newPostits);
+    })();
+
   return (
     <div className="postit-section" style={{ height: height }}>
       <div className="postit-board">

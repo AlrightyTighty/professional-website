@@ -62,6 +62,7 @@
     flex-wrap: wrap;
     gap: 25px;
     justify-content: center;
+    align-content: flex-start;
   }
 
   .project-intro-text {
