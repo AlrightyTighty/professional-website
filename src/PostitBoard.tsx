@@ -1,4 +1,4 @@
-import { FC, RefObject, useEffect, useState } from "react";
+import { FC, RefObject, useState } from "react";
 import "./PostitBoardStyling.css";
 
 interface PostitBoardProps {
@@ -23,8 +23,6 @@ const PostitNote: FC<PostitProps> = ({ url, id }) => {
 
 const PostitBoard: FC<PostitBoardProps> = ({ height, setPostitActive, reloadImagesRef }) => {
   const [postits, setPostits] = useState<string[]>([]);
-
-  console.log("re-render");
 
   if (reloadImagesRef.current)
     (async () => {

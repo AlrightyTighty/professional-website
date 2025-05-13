@@ -22,6 +22,7 @@ import headshot from "./assets/images/headshot.png";
 import "./MenuStyling.css";
 import "./MainSectionStyling.css";
 import "./AboutMeSectionStyling.css";
+import "./ContactSectionStyling.css";
 import { Widget, WidgetDisplay, WidgetImage } from "./Widget";
 import { ProjectDisplay } from "./ProjectDisplay";
 import PostitBoard from "./PostitBoard";
@@ -72,7 +73,8 @@ const MenuPanel: FC<MenuPanelProps> = ({ texts, scrollToSelectors, hoveredIndex,
 };
 
 const menuSections = ["Home", "About Me", "Projects", "Post-It Board", "Contact Me"];
-const menuLinks = [".greeting-text", "", "", "", "", ""];
+const menuLinks = ["#Home", "#About-Me", "#Projects", "#Post-It-Board", "#Contact-Me"];
+const scrollDistances: number[] = [0, 1191.546875, 2133.515625, 3155.078125, 3880.390625];
 
 const App = () => {
   const prevSelected = useRef(-1);
@@ -100,10 +102,9 @@ const App = () => {
     setTimeout(() => {
       setEnableScrollable(true);
     }, 2000);
-  }, []);
+  }, [whitePosition, pinkPosition, animateReact]);
 
   useEffect(() => {
-    console.log("re-animating :)");
     animateReact(
       `.menu-scrollto-button-holder:nth-child(${selectedIndex + 1}) div, .menu-scrollto-button-holder:nth-child(${hoveredIndex + 1}) div`,
       { width: "100%", backgroundColor: "#ef4687" },
@@ -118,14 +119,25 @@ const App = () => {
     prevHovered.current = hoveredIndex;
   }, [selectedIndex, hoveredIndex, animateReact]);
 
-  const updateCurrentSection = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {};
+  const getCurrentSection = (currentScroll: number) => {
+    let res = -1;
+    while (res < 4 && currentScroll >= scrollDistances[res + 1]) res++;
+
+    return res;
+  };
+
+  const updateCurrentSection = (event: React.UIEvent<HTMLDivElement, UIEvent>) => {
+    if (getCurrentSection(event.currentTarget.scrollTop) != selectedIndex) {
+      setSelectedIndex(getCurrentSection(event.currentTarget.scrollTop));
+    }
+  };
 
   return (
     <>
       <div className="panel-holder" ref={scope}>
         <MenuPanel texts={menuSections} scrollToSelectors={menuLinks} hoveredIndex={hoveredIndex} setHoveredIndex={setHoveredIndex} />
-        <div className="main-content-panel" style={enableScrollable ? { overflowY: "scroll" } : { overflowY: "hidden" }}>
-          <div className="homescreen-intro-text">
+        <div className="main-content-panel" onScroll={updateCurrentSection} style={enableScrollable ? { overflowY: "scroll" } : { overflowY: "hidden" }}>
+          <div id="Home" className="homescreen-intro-text">
             <motion.div className="default-font default-font-color greeting-text" ref={scope} initial={{ opacity: 0 }}>
               Hi, I'm
             </motion.div>
@@ -141,8 +153,8 @@ const App = () => {
           </div>
           <div className="aboutme-content-section">
             <p></p>
-            <p className="default-font default-font-color" style={{ width: "80%", fontSize: "32pt" }}>
-              I am a <span style={{ background: "linear-gradient(to right, #0011ff, #8300fb)", backgroundClip: "text", color: "rgba(0, 0, 0, 0)" }}>fullstack engineer</span> that enjoys building
+            <p id="About-Me" className="default-font default-font-color" style={{ width: "80%", fontSize: "32pt" }}>
+              I am a <span style={{ background: "linear-gradient(to right, #EFFA58, #EF4687)", backgroundClip: "text", color: "rgba(0, 0, 0, 0)" }}>fullstack engineer</span> that enjoys building
               functional and practical apps. I am experienced with various technologies, some of which are listed below.
             </p>
             <br />
@@ -170,23 +182,43 @@ const App = () => {
               </Widget>
             </WidgetDisplay>
             <p className="default-font default-font-color" style={{ width: "80%", fontSize: "32pt", marginTop: "50px" }}>
+              I'm a CS student in Houston. I have a profound interest in making things; whether it be games for my friends and me or toys for my cats, I've always believed that coding is my way of
+              changing the world.
+            </p>
+            <p className="default-font default-font-color" style={{ width: "80%", fontSize: "32pt", marginTop: "50px" }}>
               I am also an undergraduate research assistant under Dr. Rizk at the University of Houston. I am interested in education and generative AI's possible effects on its development in the
               near future.
             </p>
           </div>
-          <p className="project-intro-text default-font default-font-color">
+          <p id="Projects" className="project-intro-text default-font default-font-color">
             <u>Projects: </u>
           </p>
           <div className="project-section">
             <ProjectDisplay thumnbail_src={katyway_thumbnail} name="KatyWay" technologies_used={[react_icon, typescript_icon, gcp_icon]} />
             <ProjectDisplay thumnbail_src={mcs_thumbnail} name="MCS" technologies_used={[unity_icon, c_icon, cs_icon]} />
             <ProjectDisplay thumnbail_src={alrightytechy_thumbnail} name="AlrightyTechy" technologies_used={[python_icon, gcp_icon, postgre_icon]} />
-            <ProjectDisplay thumnbail_src={ffg_thumbnail} name="Fitness For Goobs" technologies_used={[python_icon, gcp_icon, postgre_icon]} />
+            <ProjectDisplay thumnbail_src={ffg_thumbnail} name="Fitness For Goobs" technologies_used={[react_icon, node_icon, mongo_icon, gcp_icon]} />
           </div>
-          <p className="postit-board-intro-text default-font default-font-color">
+          <p id="Post-It-Board" className="postit-board-intro-text default-font default-font-color">
             <u>Post-it Board!</u>
           </p>
-          <PostitBoard height={400} postits={testdata} setPostitActive={setPostitActive} reloadImagesRef={reloadImagesRef} />
+          <p className="default-font default-font-color post-it-board-body-text">
+            Not much of a portfolio site if I don't show off that I at least know a thing or two about making apps, right? Here's a little app where you can leave notes for me. Please be appropriate.
+            Consider that this is my professional website and employers will look here. Don't make me make this an account-based thing.
+          </p>
+          <PostitBoard height={400} postits={[]} setPostitActive={setPostitActive} reloadImagesRef={reloadImagesRef} />
+          <p id="Contact-Me" className="contact-intro-text default-font default-font-color">
+            <u>Contact Me</u>
+          </p>
+          <p className="default-font default-font-color post-it-board-body-text">
+            My preferred method of communication for anything professional/academic is my{" "}
+            <a style={{ color: "rgb(18, 201, 207)" }} href="https://www.linkedin.com/in/joshua-novak-037700252/">
+              LinkedIn
+            </a>
+            . If you wanna talk casually, message me there too! I'll set you up with my discord and we can chat there.
+          </p>
+          <p className="default-font default-font-color post-it-board-body-text">Thanks for visiting! I hope to hear from you 😀!</p>
+          <div style={{ marginTop: 800 }} />
         </div>
         {postitActive && <PostitMaker setPostitMakerActive={setPostitActive} reloadImagesRef={reloadImagesRef} />}
       </div>

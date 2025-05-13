@@ -17,7 +17,7 @@ const PostitMaker: FC<PostitMakerProps> = ({ setPostitMakerActive, reloadImagesR
   const uploadImage = async () => {
     if (!canvasRef.current) return;
     const data: string = canvasRef.current.toDataURL("image/bmp");
-    const response = await fetch("http://localhost:3000/stickynote", {
+    await fetch("http://localhost:3000/stickynote", {
       method: "POST",
       body: JSON.stringify({ image: data }),
       headers: {

@@ -9,6 +9,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
+    align-content: flex-start;
+}
+
+.postit-board-intro-text {
+    font-size: 48pt;
+    width: 100%;
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .postit-note {
@@ -24,6 +34,7 @@
 }
 
 .postit-button-border {
+    margin-top: 25px;
     background: linear-gradient(to right, #EFFA58, #EF4687);
     border-radius: 5px;
     width: 146px;
@@ -80,4 +91,9 @@
 .toolbar button img {
     width: 100%;
     height: 100%;
+}
+
+.post-it-board-body-text {
+    font-size: 20pt;
+    width: 80%;
 }
